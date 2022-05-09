@@ -18,6 +18,7 @@ import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.squareup.picasso.Picasso
 import com.squareup.picasso.Picasso.LoadedFrom
+import com.squareup.picasso.Target
 
 
 class MessageAdapter(
@@ -61,7 +62,7 @@ class MessageAdapter(
                                                     val d: Drawable =
                                                         context.resources.getDrawable(R.drawable.message_back_to)
                                                     d.setColorFilter(pixel, PorterDuff.Mode.SRC_ATOP)
-                                                    itemToBinding.layout.setBackground(d)
+                                                    itemToBinding.layout.background = d
 
                                                     itemToBinding.textTv.text = message.text
                                                     itemToBinding.dateTv.text = message.date
