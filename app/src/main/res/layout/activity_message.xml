@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MessageActivity">
+
+   <LinearLayout
+       android:id="@+id/layout"
+       android:layout_width="match_parent"
+       android:layout_height="wrap_content"
+       android:padding="10dp"
+       android:orientation="horizontal"
+       android:gravity="center_vertical"
+       app:layout_constraintTop_toTopOf="parent">
+
+      <ImageView
+          android:foreground="?actionBarItemBackground"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:padding="10dp"
+          android:src="@drawable/ic_back"
+          android:id="@+id/back_iv"/>
+
+      <androidx.cardview.widget.CardView
+          android:id="@+id/card_view"
+          android:layout_width="70dp"
+          android:layout_height="70dp"
+          android:layout_marginVertical="6dp"
+          android:layout_marginLeft="20dp"
+          app:cardCornerRadius="25dp">
+
+         <ImageView
+             android:layout_width="match_parent"
+             android:layout_height="match_parent"
+             android:id="@+id/user_iv"
+             android:scaleType="centerCrop"/>
+
+      </androidx.cardview.widget.CardView>
+
+
+      <LinearLayout
+          android:layout_width="0dp"
+          android:layout_height="wrap_content"
+          android:layout_weight="1"
+          android:paddingHorizontal="20dp"
+          android:gravity="center_vertical"
+          android:orientation="vertical">
+
+         <TextView
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:textColor="@color/text_black"
+             android:textStyle="bold"
+             android:text="@string/app_name"
+             android:maxLines="1"
+             android:id="@+id/user_name_tv"
+             android:textSize="24sp"/>
+
+         <TextView
+             android:text="@string/app_name"
+             android:maxLines="1"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:textColor="@color/text_blue"
+             android:id="@+id/user_status_tv"
+             android:textSize="18sp"/>
+
+      </LinearLayout>
+
+   </LinearLayout>
+
+   <androidx.recyclerview.widget.RecyclerView
+       android:id="@+id/recycler_view"
+       android:layout_width="match_parent"
+       android:layout_height="0dp"
+       android:orientation="vertical"
+       app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+       app:layout_constraintBottom_toTopOf="@id/layout_linear"
+       app:layout_constraintTop_toBottomOf="@id/layout" />
+
+   <LinearLayout
+       android:id="@+id/layout_linear"
+       android:layout_width="match_parent"
+       android:layout_height="70dp"
+       android:layout_margin="10dp"
+       android:background="@drawable/et_back"
+       android:gravity="center"
+       android:orientation="horizontal"
+       android:paddingHorizontal="16dp"
+       app:layout_constraintBottom_toBottomOf="parent">
+
+      <EditText
+          android:id="@+id/message_et"
+          android:layout_width="0dp"
+          android:layout_height="match_parent"
+          android:layout_weight="1"
+          android:background="#FAFAFA"
+          android:hint="Your message..."
+          android:padding="10dp"
+          android:textSize="18sp" />
+
+      <ImageButton
+          android:id="@+id/send_btn"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:background="#FAFAFA"
+          android:foreground="?actionBarItemBackground"
+          android:padding="10dp"
+          android:src="@drawable/ic_plus" />
+
+   </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
