@@ -21,7 +21,7 @@
             android:layout_height="wrap_content"
             android:background="@color/text_blue"
             android:padding="20dp"
-            android:text="Sign In"
+            android:text="@string/sign_in"
             android:textAllCaps="false"
             android:textColor="@color/white"
             android:textSize="18sp" />
@@ -42,7 +42,7 @@
             android:layout_height="wrap_content"
             android:background="@color/text_blue"
             android:padding="20dp"
-            android:text="Sign Out"
+            android:text="@string/sign_out"
             android:textAllCaps="false"
             android:textColor="@color/white"
             android:textSize="18sp" />

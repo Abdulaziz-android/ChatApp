@@ -18,10 +18,10 @@ import java.text.DateFormat
 import java.text.SimpleDateFormat
 import java.util.*
 
-class UserAdapter(val list: List<User>, val listener: OnItemClickListener) :
+class UserAdapter(private val list: List<User>, val listener: OnItemClickListener) :
     RecyclerView.Adapter<UserAdapter.UserVH>() {
 
-    inner class UserVH(val itemBinding: ItemUserBinding) :
+    inner class UserVH(private val itemBinding: ItemUserBinding) :
         RecyclerView.ViewHolder(itemBinding.root) {
         fun onBind(user: User) {
             val currentUser = FirebaseAuth.getInstance().currentUser
@@ -59,7 +59,7 @@ class UserAdapter(val list: List<User>, val listener: OnItemClickListener) :
             Picasso.get().load(user.photoUrl).into(itemBinding.imageView)
             itemBinding.displayNameTv.text = user.displayName
             itemBinding.root.setOnClickListener {
-                listener.OnItemClick(user)
+                listener.onItemClick(user)
             }
             if (user.status == "online") {
                 itemBinding.indicatorIv.visibility = View.VISIBLE
@@ -79,7 +79,7 @@ class UserAdapter(val list: List<User>, val listener: OnItemClickListener) :
     override fun getItemCount(): Int = list.size
 
     interface OnItemClickListener {
-        fun OnItemClick(user: User)
+        fun onItemClick(user: User)
     }
 
 }

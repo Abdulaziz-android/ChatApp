@@ -20,15 +20,15 @@ import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.ktx.Firebase
 
+const val RC_SIGN_IN = 1
 class SignInFragment : Fragment() {
 
     private var _binding: FragmentSignInBinding? = null
     private val binding get() = _binding!!
-    lateinit var googleSignInClient:GoogleSignInClient
-    lateinit var auth: FirebaseAuth
-    private var RC_SIGN_IN = 1
-    lateinit var firebaseDatabase: FirebaseDatabase
-    lateinit var reference: DatabaseReference
+    private lateinit var googleSignInClient:GoogleSignInClient
+    private lateinit var auth: FirebaseAuth
+    private lateinit var firebaseDatabase: FirebaseDatabase
+    private lateinit var reference: DatabaseReference
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

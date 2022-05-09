@@ -22,10 +22,10 @@ import com.squareup.picasso.Target
 
 
 class MessageAdapter(
-    var list: List<Message>,
-    val uid: String,
-    val isGroup: Boolean,
-    val context: Context
+    private var list: List<Message>,
+    private val uid: String,
+    private val isGroup: Boolean,
+    private val context: Context
 ) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
@@ -129,9 +129,9 @@ class MessageAdapter(
     }
 
     override fun getItemViewType(position: Int): Int {
-        if (list[position].fromUserId == uid) {
-            return 1
-        } else return 2
+        return if (list[position].fromUserId == uid) {
+            1
+        } else 2
     }
 
     override fun getItemCount(): Int = list.size

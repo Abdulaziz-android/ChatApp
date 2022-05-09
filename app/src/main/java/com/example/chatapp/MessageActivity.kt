@@ -2,12 +2,10 @@ package com.example.chatapp
 
 import android.app.NotificationManager
 import android.content.Context
-import android.content.Intent
 import android.content.SharedPreferences
 import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -18,7 +16,6 @@ import com.example.chatapp.models.Message
 import com.example.chatapp.models.User
 import com.example.chatapp.notifications.*
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.*
 import com.squareup.picasso.Picasso
 import retrofit2.Call
@@ -30,10 +27,10 @@ import java.util.*
 
 class MessageActivity : AppCompatActivity() {
 
-    lateinit var auth: FirebaseAuth
-    lateinit var firebaseDatabase: FirebaseDatabase
-    lateinit var reference: DatabaseReference
-    lateinit var messageAdapter: MessageAdapter
+    private lateinit var auth: FirebaseAuth
+    private lateinit var firebaseDatabase: FirebaseDatabase
+    private lateinit var reference: DatabaseReference
+    private lateinit var messageAdapter: MessageAdapter
     private var isUser = true
     private var user: User? = null
     private var group: Group? = null
@@ -46,7 +43,7 @@ class MessageActivity : AppCompatActivity() {
 
     private lateinit var sPref: SharedPreferences
 
-    lateinit var binding: ActivityMessageBinding
+    private lateinit var binding: ActivityMessageBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -84,7 +81,7 @@ class MessageActivity : AppCompatActivity() {
             val text = binding.messageEt.text.toString()
             if (text.isNotEmpty()) {
                 notify = true
-                val simpleFormat = SimpleDateFormat("dd.MM.yyyy HH:mm")
+                val simpleFormat = SimpleDateFormat("dd.MM.yyyy HH:mm", Locale.ENGLISH)
                 val date = simpleFormat.format(Date())
                 val message = Message(text, date, auth.currentUser?.uid)
                 val key = reference.push().key!!
@@ -113,10 +110,12 @@ class MessageActivity : AppCompatActivity() {
                                 }
                             }
                             if (notify) {
-                                sendNotification(userChild?.uid,
+                                sendNotification(
+                                    userChild?.uid,
                                     auth.currentUser?.displayName,
                                     text,
-                                    "")
+                                    ""
+                                )
                                 notify = false
                             }
                         } else {
@@ -124,9 +123,11 @@ class MessageActivity : AppCompatActivity() {
                                 snapshot.children.forEach {
                                     val value = it.getValue(User::class.java)
                                     if (auth.currentUser?.uid != value?.uid)
-                                        sendNotification(value?.uid,
+                                        sendNotification(
+                                            value?.uid,
                                             auth.currentUser?.displayName,
-                                            text, groupKey!!)
+                                            text, groupKey!!
+                                        )
                                 }
                                 notify = false
                             }
@@ -161,10 +162,12 @@ class MessageActivity : AppCompatActivity() {
                         }
 
                         messageAdapter =
-                            MessageAdapter(list,
+                            MessageAdapter(
+                                list,
                                 auth.currentUser!!.uid,
                                 false,
-                                binding.root.context)
+                                binding.root.context
+                            )
                         binding.recyclerView.adapter = messageAdapter
                         binding.recyclerView.scrollToPosition(messageAdapter.itemCount - 1)
                     }
@@ -184,10 +187,10 @@ class MessageActivity : AppCompatActivity() {
                             if (value.uid == user?.uid) {
                                 if (value.status == "online") {
                                     binding.userStatusTv.setTextColor(Color.parseColor("#2675EC"))
-                                    binding.userStatusTv.setText(value.status)
-                                } else
+                                } else {
                                     binding.userStatusTv.setTextColor(Color.parseColor("#131313"))
-                                binding.userStatusTv.setText(value.status)
+                                }
+                                binding.userStatusTv.text = value.status
                             }
                         }
                     }
@@ -321,11 +324,13 @@ class MessageActivity : AppCompatActivity() {
                 snapshot.children.forEach {
                     val mtitle = if (isUser) "New Message:" else "${group?.name!!}:"
                     val token = it.getValue(Token::class.java)
-                    val data = Data(auth.currentUser!!.uid,
+                    val data = Data(
+                        auth.currentUser!!.uid,
                         R.mipmap.ic_launcher,
                         currentUserName.toString() + ": " + msg,
                         title = mtitle,
-                        user?.uid.toString(), groupKey, System.currentTimeMillis().toInt())
+                        user?.uid.toString(), groupKey, System.currentTimeMillis().toInt()
+                    )
 
                     val sender = Sender(data, token!!.token)
                     apiService.sendNotification(sender)
@@ -336,9 +341,11 @@ class MessageActivity : AppCompatActivity() {
                             ) {
                                 if (response.code() == 200) {
                                     if (response.body()?.success != 1) {
-                                        Toast.makeText(this@MessageActivity,
+                                        Toast.makeText(
+                                            this@MessageActivity,
                                             "Failed!",
-                                            Toast.LENGTH_SHORT)
+                                            Toast.LENGTH_SHORT
+                                        )
                                             .show()
                                     }
                                 }
@@ -346,9 +353,11 @@ class MessageActivity : AppCompatActivity() {
 
                             override fun onFailure(call: Call<MyResponce>, t: Throwable) {
 
-                                Toast.makeText(this@MessageActivity,
+                                Toast.makeText(
+                                    this@MessageActivity,
                                     "Failure!",
-                                    Toast.LENGTH_SHORT)
+                                    Toast.LENGTH_SHORT
+                                )
                                     .show()
                             }
 

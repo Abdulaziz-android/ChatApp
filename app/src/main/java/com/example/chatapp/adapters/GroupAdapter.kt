@@ -6,13 +6,13 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.chatapp.databinding.ItemGroupBinding
 import com.example.chatapp.models.Group
 
-class GroupAdapter(val list: List<Group>,val listener:OnClickListener) : RecyclerView.Adapter<GroupAdapter.GroupVH>(){
+class GroupAdapter(private val list: List<Group>,val listener:OnClickListener) : RecyclerView.Adapter<GroupAdapter.GroupVH>(){
 
-    inner class GroupVH(val itemBinding:ItemGroupBinding):RecyclerView.ViewHolder(itemBinding.root){
+    inner class GroupVH(private val itemBinding:ItemGroupBinding):RecyclerView.ViewHolder(itemBinding.root){
         fun onBind(group: Group){
             itemBinding.nameTv.text = group.name
             itemBinding.nameTv.setOnClickListener {
-                listener.OnClick(group)
+                listener.onClick(group)
             }
         }
     }
@@ -28,6 +28,6 @@ class GroupAdapter(val list: List<Group>,val listener:OnClickListener) : Recycle
     override fun getItemCount(): Int = list.size
 
     interface OnClickListener{
-        fun OnClick(group: Group)
+        fun onClick(group: Group)
     }
 }

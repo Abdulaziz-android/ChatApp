@@ -3,15 +3,11 @@ package com.example.chatapp.fragments
 import android.app.AlertDialog
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.navigation.fragment.findNavController
 import com.example.chatapp.MessageActivity
-import com.example.chatapp.R
 import com.example.chatapp.adapters.GroupAdapter
 import com.example.chatapp.adapters.UserAdapter
 import com.example.chatapp.databinding.FragmentPagerBinding
@@ -20,8 +16,6 @@ import com.example.chatapp.models.Group
 import com.example.chatapp.models.User
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
-import kotlin.collections.ArrayList
-import kotlin.collections.HashMap
 
 private const val ARG_PARAM1 = "param1"
 
@@ -38,13 +32,13 @@ class PagerFragment : Fragment() {
 
     private var _binding: FragmentPagerBinding? = null
     private val binding get() = _binding!!
-    lateinit var auth: FirebaseAuth
-    lateinit var firebaseDatabase: FirebaseDatabase
-    lateinit var reference: DatabaseReference
-    lateinit var userAdapter: UserAdapter
-    lateinit var groupAdapter: GroupAdapter
-    val list = ArrayList<User>()
-    val listGr = ArrayList<Group>()
+    private lateinit var auth: FirebaseAuth
+    private lateinit var firebaseDatabase: FirebaseDatabase
+    private lateinit var reference: DatabaseReference
+    private lateinit var userAdapter: UserAdapter
+    private lateinit var groupAdapter: GroupAdapter
+    private val list = ArrayList<User>()
+    private val listGr = ArrayList<Group>()
     private var status = "online"
 
     override fun onCreateView(
@@ -95,7 +89,7 @@ class PagerFragment : Fragment() {
                 }
 
                 userAdapter = UserAdapter(list, object : UserAdapter.OnItemClickListener {
-                    override fun OnItemClick(user: User) {
+                    override fun onItemClick(user: User) {
                         val intent = Intent(binding.root.context, MessageActivity::class.java)
                         val bundle = Bundle()
                         bundle.putSerializable("userid", user.uid)
@@ -145,7 +139,7 @@ class PagerFragment : Fragment() {
                     }
 
                     groupAdapter = GroupAdapter(listGr, object : GroupAdapter.OnClickListener {
-                        override fun OnClick(group: Group) {
+                        override fun onClick(group: Group) {
                             val intent = Intent(binding.root.context, MessageActivity::class.java)
                             val bundle = Bundle()
                             bundle.putString("group", group.key)
@@ -175,10 +169,10 @@ class PagerFragment : Fragment() {
             }
     }
 
-    fun setStatus(sts: String) {
+    private fun setStatus(sts: String) {
         if (param1 == "Chats") {
             val hashMap: HashMap<String, Any> = HashMap()
-            hashMap.put("status", sts)
+            hashMap["status"] = sts
             reference.child(auth.currentUser?.uid!!).updateChildren(hashMap)
         }
     }
